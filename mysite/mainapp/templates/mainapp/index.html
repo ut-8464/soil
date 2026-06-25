@@ -104,6 +104,11 @@
         box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
       }
 
+      .raw-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+      }
+
       h1 {
         margin: 0 0 12px;
         font-size: clamp(2.4rem, 5vw, 3.8rem);
@@ -117,16 +122,35 @@
       }
 
       .link a,
-      .raw-link,
       .raw-note a {
         color: #ffd966;
         text-decoration: none;
       }
 
       .link a:hover,
-      .raw-link:hover,
       .raw-note a:hover {
         text-decoration: underline;
+      }
+
+      .raw-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffd966;
+        color: #0b1320;
+        border: none;
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
+      }
+
+      .raw-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
       }
 
       .raw-note {
@@ -277,7 +301,7 @@
       </div>
 
       <div class="raw-data-section">
-        <h2><a href="{% url 'raw_history' %}" class="raw-link">原始感測器資料</a></h2>
+        <h2><a href="{% url 'raw_history' %}" class="raw-button">原始感測器資料</a></h2>
         <p class="raw-note"><a href="{% url 'raw_history' %}">點此查看全部歷史原始資料</a></p>
         <div class="table-wrapper">
           <table>
