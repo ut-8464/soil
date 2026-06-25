@@ -67,3 +67,19 @@ def raw_data(request):
     return JsonResponse({
         'rows': rows,
     })
+
+
+def raw_history(request):
+    readings = SensorReading.objects.order_by('-created_at')
+    rows = [
+        {
+            'timestamp': reading.created_at,
+            'label': settings.MQTT_SENSOR_LABELS.get(reading.sensor_name, reading.sensor_name),
+            'value': reading.value,
+            'raw_payload': reading.raw_payload,
+        }
+        for reading in readings
+    ]
+    return render(request, 'mainapp/raw_history.html', {
+        'rows': rows,
+    })

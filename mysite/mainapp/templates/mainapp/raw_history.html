@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>歷史原始資料 - 土壤溼度感測系統</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: #07121f;
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 20px;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 24px;
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 3vw, 3.2rem);
+      }
+      p {
+        margin: 8px 0 18px;
+        color: #cbd5e0;
+      }
+      a {
+        color: #ffd966;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 14px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        text-align: left;
+        font-size: 0.95rem;
+      }
+      th {
+        color: #ffd966;
+      }
+      td {
+        color: #e8e8e8;
+      }
+      .empty-row td {
+        text-align: center;
+        color: #ccc;
+      }
+      .table-wrapper {
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>歷史原始資料</h1>
+        <p>下面顯示所有已儲存的原始感測器資料，若目前資料庫尚無資料，則會顯示提示訊息。</p>
+        <p><a href="/">&larr; 回到首頁</a></p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>感測器</th>
+                <th>數值</th>
+                <th>原始 Payload</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if rows %}
+                {% for row in rows %}
+                  <tr>
+                    <td>{{ row.timestamp|date:'Y/m/d H:i:s' }}</td>
+                    <td>{{ row.label }}</td>
+                    <td>{{ row.value }}</td>
+                    <td>{{ row.raw_payload }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr class="empty-row">
+                  <td colspan="4">尚未收到任何感測器資料</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

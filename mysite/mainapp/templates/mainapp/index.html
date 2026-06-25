@@ -58,13 +58,23 @@
         color: #d9d9d9;
       }
 
-      .link a {
+      .link a,
+      .raw-link,
+      .raw-note a {
         color: #ffd966;
         text-decoration: none;
       }
 
-      .link a:hover {
+      .link a:hover,
+      .raw-link:hover,
+      .raw-note a:hover {
         text-decoration: underline;
+      }
+
+      .raw-note {
+        margin: 8px 0 16px;
+        font-size: 0.95rem;
+        color: #e0e0e0;
       }
 
       .sensor-grid {
@@ -198,7 +208,8 @@
       </div>
 
       <div class="raw-data-section">
-        <h2>原始感測器資料</h2>
+        <h2><a href="{% url 'raw_history' %}" class="raw-link">原始感測器資料</a></h2>
+        <p class="raw-note"><a href="{% url 'raw_history' %}">點此查看全部歷史原始資料</a></p>
         <div class="table-wrapper">
           <table>
             <thead>
