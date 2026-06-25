@@ -100,6 +100,13 @@
         gap: 24px;
       }
 
+      .empty-msg {
+        text-align: center;
+        color: #ccc;
+        padding: 16px 8px;
+        font-size: 0.98rem;
+      }
+
       .chart-card,
       .raw-data-section {
         background: rgba(255, 255, 255, 0.08);
@@ -178,13 +185,15 @@
       </div>
 
       <div class="chart-grid">
-        <div class="chart-card">
+        <div class="chart-card" id="water-card">
           <h2>水位歷史資料</h2>
           <canvas id="waterChart" height="220"></canvas>
+          <div id="water-empty" class="empty-msg" style="display:none">目前尚無感測器資料</div>
         </div>
-        <div class="chart-card">
+        <div class="chart-card" id="soil-card">
           <h2>土壤溼度歷史資料</h2>
           <canvas id="soilChart" height="220"></canvas>
+          <div id="soil-empty" class="empty-msg" style="display:none">目前尚無感測器資料</div>
         </div>
       </div>
 
@@ -313,20 +322,37 @@
         const history = data.history;
 
         const waterRows = history.water_level || [];
-        waterChart.data.labels = waterRows.map((item) => item.timestamp.replace('T', ' ').split('.')[0]);
-        waterChart.data.datasets[0].data = waterRows.map((item) => item.value);
-        waterChart.update();
+        const waterEmptyEl = document.getElementById('water-empty');
+        if (!waterRows.length) {
+          waterChart.data.labels = [];
+          waterChart.data.datasets[0].data = [];
+          waterChart.update();
+          waterEmptyEl.style.display = 'block';
+        } else {
+          waterEmptyEl.style.display = 'none';
+          waterChart.data.labels = waterRows.map((item) => item.timestamp.replace('T', ' ').split('.')[0]);
+          waterChart.data.datasets[0].data = waterRows.map((item) => item.value);
+          waterChart.update();
+        }
 
         const soilKeys = ['soil_1', 'soil_2', 'soil_3'];
-        const maxLen = Math.max(...soilKeys.map((key) => (history[key] || []).length));
-        const labels = history.soil_1?.map((item) => item.timestamp.replace('T', ' ').split('.')[0]) || [];
-
-        soilChart.data.labels = labels;
-        soilChart.data.datasets.forEach((dataset, index) => {
-          const key = soilKeys[index];
-          dataset.data = (history[key] || []).map((item) => item.value);
-        });
-        soilChart.update();
+        const soilEmptyEl = document.getElementById('soil-empty');
+        const soilHasData = soilKeys.some((key) => (history[key] || []).length > 0);
+        if (!soilHasData) {
+          soilChart.data.labels = [];
+          soilChart.data.datasets.forEach((ds) => (ds.data = []));
+          soilChart.update();
+          soilEmptyEl.style.display = 'block';
+        } else {
+          soilEmptyEl.style.display = 'none';
+          const labels = (history.soil_1 || []).map((item) => item.timestamp.replace('T', ' ').split('.')[0]);
+          soilChart.data.labels = labels;
+          soilChart.data.datasets.forEach((dataset, index) => {
+            const key = soilKeys[index];
+            dataset.data = (history[key] || []).map((item) => item.value);
+          });
+          soilChart.update();
+        }
       }
 
       async function fetchRawData() {
