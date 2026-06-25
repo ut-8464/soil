@@ -41,10 +41,18 @@
         width: min(100%, calc(100vw - 24px));
         position: relative;
         z-index: 1;
+        transform-origin: top center;
       }
 
       .header {
         margin-bottom: 24px;
+      }
+
+      @media (max-width: 1060px) {
+        .overlay {
+          width: 1060px;
+          transform: scale(calc((100vw - 24px) / 1060));
+        }
       }
 
       @media (max-width: 900px) {
