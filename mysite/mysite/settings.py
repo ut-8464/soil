@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'mainapp.apps.MainappConfig',
+    'mainapp',
 ]
 
 MIDDLEWARE = [
@@ -116,25 +116,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
-
-# MQTT configuration: update these topics to match your broker and sensor setup
-MQTT_BROKER = "127.0.0.1"
-MQTT_PORT = 1883
-MQTT_TOPICS = [
-    ("sensor/water", 0),
-    ("sensor/soil/1", 0),
-    ("sensor/soil/2", 0),
-    ("sensor/soil/3", 0),
-]
-MQTT_TOPIC_TO_SENSOR = {
-    "sensor/water": "water_level",
-    "sensor/soil/1": "soil_1",
-    "sensor/soil/2": "soil_2",
-    "sensor/soil/3": "soil_3",
-}
-MQTT_SENSOR_LABELS = {
-    "water_level": "水位",
-    "soil_1": "土壤濕度 1",
-    "soil_2": "土壤濕度 2",
-    "soil_3": "土壤濕度 3",
-}
