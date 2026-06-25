@@ -83,21 +83,25 @@
       }
 
       .hero-link-card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 16px;
-        padding: 14px 18px;
         display: inline-block;
-        color: #ffd966;
       }
 
-      .hero-link-card a {
-        color: #ffd966;
+      .hero-button {
+        background: #ffd966;
+        color: #0b1320;
+        border: none;
+        border-radius: 999px;
+        padding: 12px 22px;
+        font-size: 1rem;
+        font-weight: 700;
         text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
       }
 
-      .hero-link-card a:hover {
-        text-decoration: underline;
+      .hero-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
       }
 
       h1 {
@@ -226,7 +230,7 @@
           <div class="hero-title-row">
             <h1 class="hero-title">土壤溼度感測自動澆水系統</h1>
             <div class="hero-link-card">
-              <a href="http://172.20.10.7/" target="_blank" rel="noopener">前往第5組網站</a>
+              <a href="http://172.20.10.7/" target="_blank" rel="noopener" class="hero-button">前往第5組網站</a>
             </div>
           </div>
           <p class="hero-subtitle">個人數據監控中心</p>
