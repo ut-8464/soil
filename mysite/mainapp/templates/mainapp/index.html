@@ -41,6 +41,7 @@
         width: min(100%, calc(100vw - 24px));
         position: relative;
         z-index: 1;
+        transform-origin: top center;
       }
 
       .header {
@@ -50,25 +51,43 @@
       @media (max-width: 1000px) {
         .overlay {
           width: min(100%, calc(100vw - 24px));
+          transform: scale(0.96);
         }
       }
 
       @media (max-width: 900px) {
         .overlay {
           transform: scale(0.92);
-          transform-origin: top center;
         }
       }
 
       @media (max-width: 780px) {
         .overlay {
-          transform: scale(0.86);
+          transform: scale(0.88);
         }
       }
 
       @media (max-width: 660px) {
         .overlay {
-          transform: scale(0.80);
+          transform: scale(0.82);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .overlay {
+          transform: scale(0.76);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .overlay {
+          transform: scale(0.70);
+        }
+      }
+
+      @media (max-width: 420px) {
+        .overlay {
+          transform: scale(0.64);
         }
       }
 
