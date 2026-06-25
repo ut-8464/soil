@@ -74,6 +74,14 @@
         align-items: center;
       }
 
+      .hero-title-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
       .hero-link-card {
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.16);
@@ -215,15 +223,17 @@
     <div class="overlay">
       <div class="header">
         <div class="hero-card">
-          <h1 class="hero-title">土壤溼度感測自動澆水系統</h1>
+          <div class="hero-title-row">
+            <h1 class="hero-title">土壤溼度感測自動澆水系統</h1>
+            <div class="hero-link-card">
+              <a href="http://172.20.10.7/" target="_blank" rel="noopener">前往第5組網站</a>
+            </div>
+          </div>
           <p class="hero-subtitle">個人數據監控中心</p>
           <div class="hero-links">
             <div>
               <p class="subtext">曾于庭</p>
               <p class="subtext">學號：B11213119</p>
-            </div>
-            <div class="hero-link-card">
-              <a href="http://172.20.10.7/" target="_blank" rel="noopener">http://172.20.10.7/</a>
             </div>
           </div>
           <p id="time" class="subtext" style="margin-top:18px;">現在時間：{{ current_time|date:'Y/m/d H:i:s' }}</p>
