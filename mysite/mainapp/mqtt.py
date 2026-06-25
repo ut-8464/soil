@@ -1,0 +1,57 @@
+import time
+
+from django.conf import settings
+from django.utils import timezone
+
+try:
+    import paho.mqtt.client as mqtt
+except ImportError:
+    mqtt = None
+
+
+def on_connect(client, userdata, flags, rc, properties=None):
+    if rc == 0:
+        print('MQTT 連線成功，開始訂閱主題')
+        client.subscribe(settings.MQTT_TOPICS)
+    else:
+        print('MQTT 連線失敗，rc=', rc)
+
+
+def on_message(client, userdata, msg):
+    payload = msg.payload.decode('utf-8', errors='ignore').strip()
+    sensor_key = settings.MQTT_TOPIC_TO_SENSOR.get(msg.topic)
+    if sensor_key is None:
+        return
+
+    try:
+        value = float(payload)
+    except ValueError:
+        return
+
+    from .models import SensorReading
+
+    SensorReading.objects.create(
+        topic=msg.topic,
+        sensor_name=sensor_key,
+        value=value,
+        raw_payload=payload,
+        created_at=timezone.now(),
+    )
+
+
+def start_mqtt_client():
+    if mqtt is None:
+        print('paho-mqtt 未安裝，MQTT 客戶端無法啟動。請安裝 paho-mqtt。')
+        return
+
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    while True:
+        try:
+            client.connect(settings.MQTT_BROKER, settings.MQTT_PORT, keepalive=60)
+            client.loop_forever()
+        except Exception as exc:
+            print('MQTT 客戶端錯誤：', exc)
+            time.sleep(10)

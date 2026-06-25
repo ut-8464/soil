@@ -33,29 +33,29 @@
       }
 
       .overlay {
-        background: rgba(0, 0, 0, 0.56);
-        padding: 40px 32px;
+        background: rgba(0, 0, 0, 0.64);
+        padding: 32px;
         border-radius: 24px;
-        max-width: 860px;
+        max-width: 1060px;
         width: 100%;
         position: relative;
         z-index: 1;
       }
 
+      .header {
+        margin-bottom: 24px;
+      }
+
       h1 {
-        margin: 0 0 20px;
-        font-size: clamp(2.5rem, 5vw, 4.2rem);
+        margin: 0 0 12px;
+        font-size: clamp(2.4rem, 5vw, 3.8rem);
         line-height: 1.05;
       }
 
-      p {
+      .subtext {
         margin: 0;
-        font-size: clamp(1.2rem, 2vw, 1.6rem);
-      }
-
-      .student-id,
-      .link {
-        margin-top: 12px;
+        font-size: 1rem;
+        color: #d9d9d9;
       }
 
       .link a {
@@ -66,16 +66,151 @@
       .link a:hover {
         text-decoration: underline;
       }
+
+      .sensor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin: 24px 0;
+      }
+
+      .sensor-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        padding: 22px;
+        min-height: 120px;
+      }
+
+      .sensor-card span {
+        display: block;
+        font-size: 0.95rem;
+        color: #dcdcdc;
+        margin-bottom: 10px;
+      }
+
+      .sensor-card strong {
+        display: block;
+        font-size: 2.1rem;
+        color: #ffffff;
+      }
+
+      .chart-grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .chart-card,
+      .raw-data-section {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        padding: 20px;
+        text-align: left;
+      }
+
+      .chart-card h2,
+      .raw-data-section h2 {
+        margin: 0 0 14px;
+        font-size: 1.15rem;
+      }
+
+      .table-wrapper {
+        max-height: 280px;
+        overflow-y: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 0.95rem;
+      }
+
+      th {
+        text-align: left;
+        color: #ffd966;
+      }
+
+      td {
+        color: #e8e8e8;
+      }
+
+      @media (min-width: 900px) {
+        .chart-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="overlay">
-      <h1>土壤溼度感測自動澆水系統</h1>
-      <p>曾于庭</p>
-      <p class="student-id">學號：B11213119</p>
-      <p id="time">現在時間：{{ current_time|date:'Y/m/d H:i:s' }}</p>
-      <p class="link"><a href="http://172.20.10.7/" target="_blank" rel="noopener">http://172.20.10.7/</a></p>
+      <div class="header">
+        <h1>土壤溼度感測自動澆水系統</h1>
+        <p class="subtext">曾于庭</p>
+        <p class="subtext">學號：B11213119</p>
+        <p id="time" class="subtext">現在時間：{{ current_time|date:'Y/m/d H:i:s' }}</p>
+        <p class="link"><a href="http://172.20.10.7/" target="_blank" rel="noopener">http://172.20.10.7/</a></p>
+      </div>
+
+      <div class="sensor-grid">
+        <div class="sensor-card">
+          <span>水位</span>
+          <strong id="sensor-water">{{ latest.water_level.value|default:'--' }}</strong>
+        </div>
+        <div class="sensor-card">
+          <span>土壤溼度 1</span>
+          <strong id="sensor-soil-1">{{ latest.soil_1.value|default:'--' }}</strong>
+        </div>
+        <div class="sensor-card">
+          <span>土壤溼度 2</span>
+          <strong id="sensor-soil-2">{{ latest.soil_2.value|default:'--' }}</strong>
+        </div>
+        <div class="sensor-card">
+          <span>土壤溼度 3</span>
+          <strong id="sensor-soil-3">{{ latest.soil_3.value|default:'--' }}</strong>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h2>水位歷史資料</h2>
+          <canvas id="waterChart" height="220"></canvas>
+        </div>
+        <div class="chart-card">
+          <h2>土壤溼度歷史資料</h2>
+          <canvas id="soilChart" height="220"></canvas>
+        </div>
+      </div>
+
+      <div class="raw-data-section">
+        <h2>原始感測器資料</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>時間</th>
+                <th>感測器</th>
+                <th>數值</th>
+                <th>原始 Payload</th>
+              </tr>
+            </thead>
+            <tbody id="raw-table-body">
+              <tr>
+                <td colspan="4" style="text-align:center; color:#ccc;">載入中...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
       const timeEl = document.getElementById('time');
       const pad = (num) => String(num).padStart(2, '0');
@@ -91,6 +226,138 @@
       }
       updateTime();
       setInterval(updateTime, 1000);
+
+      const latestMap = {
+        water_level: document.getElementById('sensor-water'),
+        soil_1: document.getElementById('sensor-soil-1'),
+        soil_2: document.getElementById('sensor-soil-2'),
+        soil_3: document.getElementById('sensor-soil-3'),
+      };
+
+      const waterCtx = document.getElementById('waterChart');
+      const soilCtx = document.getElementById('soilChart');
+
+      const waterChart = new Chart(waterCtx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: '水位',
+            borderColor: '#4fd1c5',
+            backgroundColor: 'rgba(79, 209, 197, 0.2)',
+            tension: 0.4,
+            data: [],
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: true } },
+          scales: {
+            x: { title: { display: true, text: '時間' } },
+            y: { title: { display: true, text: '數值' }, beginAtZero: true },
+          },
+        },
+      });
+
+      const soilChart = new Chart(soilCtx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '土壤溼度 1',
+              borderColor: '#f6ad55',
+              backgroundColor: 'rgba(246, 173, 85, 0.2)',
+              tension: 0.4,
+              data: [],
+            },
+            {
+              label: '土壤溼度 2',
+              borderColor: '#63b3ed',
+              backgroundColor: 'rgba(99, 179, 237, 0.2)',
+              tension: 0.4,
+              data: [],
+            },
+            {
+              label: '土壤溼度 3',
+              borderColor: '#9f7aea',
+              backgroundColor: 'rgba(159, 122, 234, 0.2)',
+              tension: 0.4,
+              data: [],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: true } },
+          scales: {
+            x: { title: { display: true, text: '時間' } },
+            y: { title: { display: true, text: '數值' }, beginAtZero: true },
+          },
+        },
+      });
+
+      async function fetchLatest() {
+        const response = await fetch('/api/latest/');
+        const data = await response.json();
+        Object.entries(data.latest).forEach(([key, reading]) => {
+          if (latestMap[key]) {
+            latestMap[key].textContent = reading.value !== null ? reading.value : '--';
+          }
+        });
+      }
+
+      async function fetchHistory() {
+        const response = await fetch('/api/history/');
+        const data = await response.json();
+        const history = data.history;
+
+        const waterRows = history.water_level || [];
+        waterChart.data.labels = waterRows.map((item) => item.timestamp.replace('T', ' ').split('.')[0]);
+        waterChart.data.datasets[0].data = waterRows.map((item) => item.value);
+        waterChart.update();
+
+        const soilKeys = ['soil_1', 'soil_2', 'soil_3'];
+        const maxLen = Math.max(...soilKeys.map((key) => (history[key] || []).length));
+        const labels = history.soil_1?.map((item) => item.timestamp.replace('T', ' ').split('.')[0]) || [];
+
+        soilChart.data.labels = labels;
+        soilChart.data.datasets.forEach((dataset, index) => {
+          const key = soilKeys[index];
+          dataset.data = (history[key] || []).map((item) => item.value);
+        });
+        soilChart.update();
+      }
+
+      async function fetchRawData() {
+        const response = await fetch('/api/raw/?limit=100');
+        const data = await response.json();
+        const body = document.getElementById('raw-table-body');
+        body.innerHTML = '';
+
+        if (!data.rows.length) {
+          body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#ccc;">尚無資料</td></tr>';
+          return;
+        }
+
+        data.rows.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.timestamp.replace('T', ' ').split('.')[0]}</td>
+            <td>${row.label}</td>
+            <td>${row.value}</td>
+            <td>${row.raw_payload}</td>
+          `;
+          body.appendChild(tr);
+        });
+      }
+
+      async function refreshAll() {
+        await Promise.all([fetchLatest(), fetchHistory(), fetchRawData()]);
+      }
+
+      refreshAll();
+      setInterval(refreshAll, 5000);
     </script>
   </body>
 </html>
