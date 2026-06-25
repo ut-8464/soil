@@ -206,12 +206,24 @@
         border-radius: 18px;
         padding: 20px;
         text-align: left;
+        color: #ffffff;
       }
 
       .chart-card h2,
       .raw-data-section h2 {
         margin: 0 0 14px;
         font-size: 1.15rem;
+        color: #ffffff;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .empty-msg {
+        text-align: center;
+        color: #f5f5f5;
+        padding: 16px 8px;
+        font-size: 0.98rem;
+        font-weight: 600;
       }
 
       .table-wrapper {
@@ -364,10 +376,27 @@
         },
         options: {
           responsive: true,
-          plugins: { legend: { display: true } },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: '#ffffff',
+                font: { weight: '700' },
+              },
+            },
+          },
           scales: {
-            x: { title: { display: true, text: '時間' } },
-            y: { title: { display: true, text: '數值' }, beginAtZero: true },
+            x: {
+              title: { display: true, text: '時間', color: '#ffffff' },
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255,255,255,0.08)' },
+            },
+            y: {
+              title: { display: true, text: '數值', color: '#ffffff' },
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              beginAtZero: true,
+            },
           },
         },
       });
@@ -402,10 +431,27 @@
         },
         options: {
           responsive: true,
-          plugins: { legend: { display: true } },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: '#ffffff',
+                font: { weight: '700' },
+              },
+            },
+          },
           scales: {
-            x: { title: { display: true, text: '時間' } },
-            y: { title: { display: true, text: '數值' }, beginAtZero: true },
+            x: {
+              title: { display: true, text: '時間', color: '#ffffff' },
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255,255,255,0.08)' },
+            },
+            y: {
+              title: { display: true, text: '數值', color: '#ffffff' },
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255,255,255,0.08)' },
+              beginAtZero: true,
+            },
           },
         },
       });
