@@ -121,20 +121,20 @@ STATIC_URL = "static/"
 MQTT_BROKER = "127.0.0.1"
 MQTT_PORT = 1883
 MQTT_TOPICS = [
-    ("sensor/water", 0),
-    ("sensor/soil/1", 0),
-    ("sensor/soil/2", 0),
-    ("sensor/soil/3", 0),
+    ("pico/water_level", 0),
+    ("pico/sensor_1", 0),
+    ("pico/sensor_2", 0),
+    ("pico/sensor_3", 0),
 ]
 MQTT_TOPIC_TO_SENSOR = {
-    "sensor/water": "water_level",
-    "sensor/soil/1": "soil_1",
-    "sensor/soil/2": "soil_2",
-    "sensor/soil/3": "soil_3",
+    "pico/water_level": "water_level",
+    "pico/sensor_1": "sensor_1",
+    "pico/sensor_2": "sensor_2",
+    "pico/sensor_3": "sensor_3",
 }
 MQTT_SENSOR_LABELS = {
     "water_level": "水位",
-    "soil_1": "土壤溼度 1",
-    "soil_2": "土壤溼度 2",
-    "soil_3": "土壤溼度 3",
+    "sensor_1": "傳感器 1",
+    "sensor_2": "傳感器 2",
+    "sensor_3": "傳感器 3",
 }
