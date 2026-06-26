@@ -134,7 +134,7 @@ MQTT_TOPIC_TO_SENSOR = {
 }
 MQTT_SENSOR_LABELS = {
     "water_level": "水位",
-    "sensor_1": "傳感器 1",
-    "sensor_2": "傳感器 2",
-    "sensor_3": "傳感器 3",
+    "sensor_1": "感測器 1",
+    "sensor_2": "感測器 2",
+    "sensor_3": "感測器 3",
 }
