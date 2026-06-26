@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'smart_pot_db',
         'USER': 'group5_admin',
         'PASSWORD': 'admin_password_555',
-        'HOST': 'yuntech_mysql',   # ⚠️ 你的 docker service name
+        'HOST': '172.20.20.7',   # ⚠️ 你的 docker service name
         'PORT': '3306',
     }
 }
