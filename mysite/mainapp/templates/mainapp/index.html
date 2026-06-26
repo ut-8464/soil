@@ -366,16 +366,16 @@
           <strong id="sensor-water">{{ latest.water_level.value|default:'--' }}</strong>
         </div>
         <div class="sensor-card">
-          <span>土壤溼度 1</span>
-          <strong id="sensor-soil-1">{{ latest.soil_1.value|default:'--' }}</strong>
+          <span>傳感器 1</span>
+          <strong id="sensor-sensor-1">{{ latest.sensor_1.value|default:'--' }}</strong>
         </div>
         <div class="sensor-card">
-          <span>土壤溼度 2</span>
-          <strong id="sensor-soil-2">{{ latest.soil_2.value|default:'--' }}</strong>
+          <span>傳感器 2</span>
+          <strong id="sensor-sensor-2">{{ latest.sensor_2.value|default:'--' }}</strong>
         </div>
         <div class="sensor-card">
-          <span>土壤溼度 3</span>
-          <strong id="sensor-soil-3">{{ latest.soil_3.value|default:'--' }}</strong>
+          <span>傳感器 3</span>
+          <strong id="sensor-sensor-3">{{ latest.sensor_3.value|default:'--' }}</strong>
         </div>
       </div>
 
@@ -434,9 +434,9 @@
 
       const latestMap = {
         water_level: document.getElementById('sensor-water'),
-        soil_1: document.getElementById('sensor-soil-1'),
-        soil_2: document.getElementById('sensor-soil-2'),
-        soil_3: document.getElementById('sensor-soil-3'),
+        sensor_1: document.getElementById('sensor-sensor-1'),
+        sensor_2: document.getElementById('sensor-sensor-2'),
+        sensor_3: document.getElementById('sensor-sensor-3'),
       };
 
       const waterCtx = document.getElementById('waterChart');
@@ -487,21 +487,21 @@
           labels: [],
           datasets: [
             {
-              label: '土壤溼度 1',
+              label: '傳感器 1',
               borderColor: '#f6ad55',
               backgroundColor: 'rgba(246, 173, 85, 0.2)',
               tension: 0.4,
               data: [],
             },
             {
-              label: '土壤溼度 2',
+              label: '傳感器 2',
               borderColor: '#63b3ed',
               backgroundColor: 'rgba(99, 179, 237, 0.2)',
               tension: 0.4,
               data: [],
             },
             {
-              label: '土壤溼度 3',
+              label: '傳感器 3',
               borderColor: '#9f7aea',
               backgroundColor: 'rgba(159, 122, 234, 0.2)',
               tension: 0.4,
@@ -565,7 +565,7 @@
           waterChart.update();
         }
 
-        const soilKeys = ['soil_1', 'soil_2', 'soil_3'];
+        const soilKeys = ['sensor_1', 'sensor_2', 'sensor_3'];
         const soilEmptyEl = document.getElementById('soil-empty');
         const soilHasData = soilKeys.some((key) => (history[key] || []).length > 0);
         if (!soilHasData) {
@@ -575,7 +575,7 @@
           soilEmptyEl.style.display = 'block';
         } else {
           soilEmptyEl.style.display = 'none';
-          const labels = (history.soil_1 || []).map((item) => item.timestamp.replace('T', ' ').split('.')[0]);
+          const labels = (history.sensor_1 || []).map((item) => item.timestamp.replace('T', ' ').split('.')[0]);
           soilChart.data.labels = labels;
           soilChart.data.datasets.forEach((dataset, index) => {
             const key = soilKeys[index];
