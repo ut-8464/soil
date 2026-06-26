@@ -80,7 +80,7 @@ DATABASES = {
         'USER': 'group5_admin',
         'PASSWORD': 'admin_password_555',
         'HOST': '172.20.20.7',   # ⚠️ 你的 docker service name
-        'PORT': '3306',
+        'PORT': '3307',
     }
 }
 
